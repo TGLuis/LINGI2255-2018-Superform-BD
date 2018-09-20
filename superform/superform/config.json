@@ -1,0 +1,40 @@
+{
+  "SECRET_KEY": "super secret key",
+  "SQLALCHEMY_DATABASE_URI": "sqlite:///superform.db",
+  "SQLALCHEMY_TRACK_MODIFICATIONS": false,
+  "SMTP_HOST":"smtp.sgsi.ucl.ac.be",
+  "SMTP_PORT":587,
+  "SMTP_USERNAME": "first.name@student.uclouvain.be",
+  "SMTP_PASSWORD": "",
+  "SMTP_STARTTLS": "True",
+  "SAML": {
+    "sp": {
+      "entityId": "superform-dev-guigui",
+      "x509cert": "MIIC+zCCAeOgAwIBAgIJAMcAG4MDaQXFMA0GCSqGSIb3DQEBBQUAMBQxEjAQBgNVBAMMCXN1cGVyZm9ybTAeFw0xODEwMDQwOTAyNTRaFw0yODEwMDEwOTAyNTRaMBQxEjAQBgNVBAMMCXN1cGVyZm9ybTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKtRvb5o2tK3UyKF+7WOc9YatCEOLMZN7/x/uwz1wxoSrfruxPo2SSNrTAAWyse+9Wyhf/dOd8KAS2G/V4ENi2s6WaFRwh9qfkxgRiiNiLz+3jDKVbVX8raeI+pRan4Qf8Xa/+mEyTXnLbYWv4Ql+YZqJJcS5hZ0KCbUI+PFlNvBCY+sRkpD1WWv13OvfS5+JsBIYESfPVqXblByQ3uWWsLVeCmBF7Ayi2Wf1GQRbZyr7iaqAakYIAhkKZV6h6diwXSJLE2nGhAXtOsIGf3tKW3cYNIGi8g2m122U9ZeWbN31w4jzTRiMjr8Hnuwu0bTMhDJyKP4Jmr4kBzhC7PkHcECAwEAAaNQME4wHQYDVR0OBBYEFH6bF+umRn67MMfS9FjelAuQcmUFMB8GA1UdIwQYMBaAFH6bF+umRn67MMfS9FjelAuQcmUFMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAC+VJSVTJ7og7V0rjIYSlBfwoeEwObeDaLYHlhC6penSRdrHHGolpqYFZFNMZK2y/0Azj4P/bg12ruyqgIJU4emCYXrvwfGIrY4g7OEQCt/EkCDvFdNjkEKhvdgBnJMDuxSR/NIwXUA7/aXZcMadha0vwFQLFgJllPT6Rb2u0CNJUh350+ic0y06qJB52C0MsLryCjYrKaHO8H9LdlJekvzg02jO7sd6Rv8h+zL7XqnxeyBYptw1f64zUWxLZFR5Ls8Y0UCfruW8P9ZXL0rPmn+S6sRk5421B39sJvdz1TMcAdpu5cLkIuvF48erqZAiosMHvGLIv8jmyzvJzA5Z5Yk=",
+      "privateKey": "MIIEpAIBAAKCAQEAq1G9vmja0rdTIoX7tY5z1hq0IQ4sxk3v/H+7DPXDGhKt+u7E+jZJI2tMABbKx771bKF/9053woBLYb9XgQ2LazpZoVHCH2p+TGBGKI2IvP7eMMpVtVfytp4j6lFqfhB/xdr/6YTJNecttha/hCX5hmoklxLmFnQoJtQj48WU28EJj6xGSkPVZa/Xc699Ln4mwEhgRJ89WpduUHJDe5ZawtV4KYEXsDKLZZ/UZBFtnKvuJqoBqRggCGQplXqHp2LBdIksTacaEBe06wgZ/e0pbdxg0gaLyDabXbZT1l5Zs3fXDiPNNGIyOvwee7C7RtMyEMnIo/gmaviQHOELs+QdwQIDAQABAoIBAFGVPn9zXWllBcD1/vTpnn4B/2+SWX4h1Tvv87prOnqrFJDfrYvd2Bx21x1fvTc715Hgopi5lExaXgtxXBFHyvHIOrCYx5HAW96xJhfftpMR5+tiH0iZViriygWmucjIwKAO9zlUE6GIsnr5AEDE+LuqxjvvMwTUUd6TvXeVOpse3aH7Hxa81dAFdfqFyMNSxi5UtkXxQaEXZk+z7T4Sma7Um5lmQ2dpAxOb0wewA+VwUZ1/Ee5vsjO5Pg0B0oTiCiGpKmdPt7jo/femQbGlo5DK1X65h7RvRCrwVSnBZyW4GclvT2i25C3y4wnUTuY3a3JnURZpbK1dutcxlaXUzWUCgYEA0izWZNMHi8d+fyJ1N6vrGAU8kVWpjGY92o1brU9OJ8AMHMApPH6H78IJjs2e+4BebwQJAwYWw03Bsgi5Lv0C8NJwCoQY8HSQBM10SaMO7V8rRaHwNd78pqsR2csPrIJ2DHRLDo3S7vbwwC7bV6ZyRv+bWBt+r96NUreyBRXkCEcCgYEA0Kwe933ILEcgW2jtZq5fbvTV4OAupYI/zxuzYgL5ZbeB5jf0mrsurTh7/j568nz+v+n7soLN6MV3gs9nW5R1ykD/6HAaa9kPsNUFqlgZ3e9z0i29tZzqlLtmIG+8wAxv4n3AW/RtDMayjIiBfD8ypjK7jk2bdGBiFXb/IZe4tbcCgYEAjFCE3ZEJg6cu61+s0/sBm+q7EegXpnUHrGYdI2pDqkQLkhI0NX/f7xAi42ShVBTSdtlBzvP8tGyv+NTcFOOzV+WWCV9Bax7Wm24yyYqDx7N2pylCviRdlkO1SirIDwqWFyB4j4Hdpc3U0uk1ZKHpvz6cjkjk3jL9NJEQ11ZTA7cCgYEAoxIPNRuPpcKDr8uk0nxsSdp9lbm72k2aLfCY03w9h9bLZazOs2iaBnZAt6P+EqfJsRJaRttfrIs8ZPZN8ExpbIA1PGD21NcRIwCl58Pnmv94hISIX3fb/hUgrzKCz5YojVf2TiYKXlSczaQThJQisayt03wkguKbY+jVYlwd1asCgYAgOc9k1PHraMSMeOWzTIF+Ff0DbN6PO1rJ86RL6AHYT8AGzUhn+2Nd8KkZu47aJriESLuGGmuqqfrH/djsCzeW913ADeheyPx3048OPxAqbcuHSCNVXAFTWoJYhQ9VZ72ncFujqoC52OfkbKDXOflXIwo7AjHWACsCFmvLQxHm8Q==",
+      "assertionConsumerService": {
+        "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+      }
+    },
+    "idp": {
+      "entityId": "https://idp.testshib.org/idp/shibboleth",
+      "singleSignOnService": {
+        "url": "https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO",
+        "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+      },
+      "x509cert": "MIIDAzCCAeugAwIBAgIVAPX0G6LuoXnKS0Muei006mVSBXbvMA0GCSqGSIb3DQEBCwUAMBsxGTAXBgNVBAMMEGlkcC50ZXN0c2hpYi5vcmcwHhcNMTYwODIzMjEyMDU0WhcNMzYwODIzMjEyMDU0WjAbMRkwFwYDVQQDDBBpZHAudGVzdHNoaWIub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg9C4J2DiRTEhJAWzPt1S3ryhm3M2P3hPpwJwvt2q948vdTUxhhvNMuc3M3S4WNh6JYBs53R+YmjqJAII4ShMGNEmlGnSVfHorex7IxikpuDPKV3SNf28mCAZbQrX+hWA+ann/uifVzqXktOjs6DdzdBnxoVhniXgC8WCJwKcx6JO/hHsH1rG/0DSDeZFpTTcZHj4S9MlLNUtt5JxRzV/MmmB3ObaX0CMqsSWUOQeE4nylSlp5RWHCnx70cs9kwz5WrflnbnzCeHU2sdbNotBEeTHot6a2cj/pXlRJIgPsrL/4VSicPZcGYMJMPoLTJ8mdy6mpR6nbCmP7dVbCIm/DQIDAQABoz4wPDAdBgNVHQ4EFgQUUfaDa2mPi24x09yWp1OFXmZ2GPswGwYDVR0RBBQwEoIQaWRwLnRlc3RzaGliLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEASKKgqTxhqBzROZ1eVy++si+eTTUQZU4+8UywSKLia2RattaAPMAcXUjO+3cYOQXLVASdlJtt+8QPdRkfp8SiJemHPXC8BES83pogJPYEGJsKo19l4XFJHPnPy+Dsn3mlJyOfAa8RyWBS80u5lrvAcr2TJXt9fXgkYs7BOCigxtZoR8flceGRlAZ4p5FPPxQR6NDYb645jtOTMVr3zgfjP6Wh2dt+2p04LG7ENJn8/gEwtXVuXCsPoSCDx9Y0QmyXTJNdV1aB0AhORkWPlFYwp+zOyOIR+3m1+pqWFpn0eT/HrxpdKa74FA3R2kq4R7dXe4G0kUgXTdqXMLRKhDgdmA=="
+    },
+    "security": {
+      "metadataValidUntil": "",
+      "metadataCacheDuration": "",
+      "wantAssertionsEncrypted": true
+    },
+    "attributes": {
+      "uid": "urn:oid:0.9.2342.19200300.100.1.1",
+      "email": "urn:oid:1.3.6.1.4.1.5923.1.1.1.6",
+      "sn": "urn:oid:2.5.4.4",
+      "givenName": "urn:oid:2.5.4.42"
+    },
+    "strict": true
+  }
+}
