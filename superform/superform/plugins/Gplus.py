@@ -1,7 +1,7 @@
 from flask import current_app
 import json
 
-FIELDS_UNAVAILABLE = ['Title',]
+FIELDS_UNAVAILABLE = ['Title']
 
 CONFIG_FIELDS = ["sender"]
 
