@@ -9,3 +9,4 @@ CONFIG_FIELDS = ["sender"]
 def run(publishing,channel_config):
 
     print("hello")
+    print("the life is beautiful")
