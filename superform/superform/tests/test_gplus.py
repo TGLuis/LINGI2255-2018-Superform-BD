@@ -3,6 +3,9 @@ import os
 import tempfile
 
 import pytest
+import json
+
+import superform.plugins.Gplus as Gplus
 
 from superform import app, db
 from superform.plugins import mail
@@ -27,3 +30,18 @@ def client():
 def test_run_gplus(client):
     # Is there a way to test a send mail function?
     assert True == True
+
+
+def test_publish(publishing, channel_publishing):
+    my_publi = Gplus.create_activity_body(publishing)
+    assert my_publi is not None
+    assert is_json(my_publi)
+    #assert Gplus.run(publishing, channel_publishing)
+
+
+def is_json(myjson):
+    try:
+        json_object = json.loads(myjson)
+    except ValueError as e:
+        return False
+    return True
