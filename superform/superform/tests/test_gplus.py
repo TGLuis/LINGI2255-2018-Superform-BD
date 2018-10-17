@@ -8,7 +8,6 @@ import json
 import superform.plugins.Gplus as Gplus
 
 from superform import app, db
-from superform.plugins import mail
 
 
 @pytest.fixture
@@ -28,7 +27,7 @@ def client():
 
 
 def test_run_gplus(client):
-    # Is there a way to test a send mail function?
+    # Is there a way to test a publishing method ? I think Yes ...
     assert True == True
 
 
@@ -36,6 +35,7 @@ def test_publish(publishing, channel_publishing):
     my_publi = Gplus.create_activity_body(publishing)
     assert my_publi is not None
     assert is_json(my_publi)
+    assert my_publi.get('object').get('originalContent') == publishing.description
     #assert Gplus.run(publishing, channel_publishing)
 
 
