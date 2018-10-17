@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, session
 import pkgutil
 import importlib
@@ -10,9 +12,15 @@ from superform.authorizations import authorizations_page
 from superform.channels import channels_page
 from superform.posts import posts_page
 from superform.users import get_moderate_channels_for_user, is_moderator
+from superform.Gplus import Gplus_page
 
 app = Flask(__name__)
 app.config.from_json("config.json")
+
+# Note: A secret key is included in the sample so that it works.
+# If you use this code in your application, replace this with a truly secret
+# key. See http://flask.pocoo.org/docs/0.12/quickstart/#sessions.
+app.secret_key = 'EPL-Superform2018Swag69Aameliorer'
 
 # Register blueprints
 app.register_blueprint(authentication_page)
@@ -20,6 +28,7 @@ app.register_blueprint(authorizations_page)
 app.register_blueprint(channels_page)
 app.register_blueprint(posts_page)
 app.register_blueprint(pub_page)
+app.register_blueprint(Gplus_page)
 
 # Init dbs
 db.init_app(app)
@@ -57,4 +66,6 @@ def notfound(error):
 
 
 if __name__ == '__main__':
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
     app.run()

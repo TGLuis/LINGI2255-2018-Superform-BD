@@ -49,6 +49,13 @@ def configure_channel(id):
         if (c.config is not ""):
             d = ast.literal_eval(c.config)
             setattr(c, "config_dict", d)
+        if (m=="superform.plugins.Gplus"):
+            if 'credentials' not in session:
+                return redirect(url_for('Gplus.authorize'))
+            c.config =session['credentials']
+            session.pop('credentials')
+            db.session.commit()
+            return redirect(url_for('channels.channel_list'))
         return render_template("channel_configure.html", channel=c, config_fields=config_fields)
     str_conf = "{"
     cfield = 0
