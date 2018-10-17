@@ -43,7 +43,7 @@ def run(publishing,channel_config):
 def create_client_object(ajoutezdesargsptn):
     """Creates a client object that allows us to publish posts
     :param ajoutezdesargsptn:
-    :return: a client object
+    :return: a client object # TODO change arg name!!!
     """
     pass
 
