@@ -41,7 +41,7 @@ def test_publish(publishing, channel_publishing):
 
 def is_json(myjson):
     try:
-        json_object = json.loads(myjson)
-    except ValueError as e:
+        json.loads(myjson)
+    except ValueError:
         return False
     return True
