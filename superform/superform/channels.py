@@ -53,7 +53,7 @@ def configure_channel(id):
                 session['id']=id
                 return redirect(url_for('Gplus.authorize'))
 
-            c.config = json.dumps(session['credentials'])
+            c.config = session['credentials']
             db.session.commit()
             session.pop('credentials')
             return redirect(url_for('channels.channel_list'))
