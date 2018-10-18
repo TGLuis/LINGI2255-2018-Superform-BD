@@ -22,7 +22,7 @@ Gplus_page = Blueprint('Gplus', __init__.__name__)
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = "superform/client_secret.json"
+CLIENT_SECRETS_FILE = "superform/config.json"
 
 # Google+ API
 API = 'plus'
