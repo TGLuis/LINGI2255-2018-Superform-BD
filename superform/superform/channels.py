@@ -1,3 +1,5 @@
+import json
+
 from flask import Blueprint, current_app, url_for, request, make_response, redirect, session, render_template
 
 from superform.utils import login_required, get_instance_from_module_path, get_modules_names, get_module_full_name
@@ -46,16 +48,18 @@ def configure_channel(id):
     config_fields = clas.CONFIG_FIELDS
 
     if request.method == 'GET':
+        if (m=="superform.plugins.Gplus"):
+            if 'credentials' not in session:
+                session['id']=id
+                return redirect(url_for('Gplus.authorize'))
+
+            c.config = json.dumps(session['credentials'])
+            db.session.commit()
+            session.pop('credentials')
+            return redirect(url_for('channels.channel_list'))
         if (c.config is not ""):
             d = ast.literal_eval(c.config)
             setattr(c, "config_dict", d)
-        if (m=="superform.plugins.Gplus"):
-            if 'credentials' not in session:
-                return redirect(url_for('Gplus.authorize'))
-            c.config =session['credentials']
-            session.pop('credentials')
-            db.session.commit()
-            return redirect(url_for('channels.channel_list'))
         return render_template("channel_configure.html", channel=c, config_fields=config_fields)
     str_conf = "{"
     cfield = 0

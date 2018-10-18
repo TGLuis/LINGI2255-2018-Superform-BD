@@ -9,7 +9,7 @@ CLIENT_SECRETS_FILE = "client_secret.json"
 
 
 FIELDS_UNAVAILABLE = ['Title']
-CONFIG_FIELDS = ["sender"]
+CONFIG_FIELDS = ['token', 'refresh_token', 'token_uri', 'client_id', 'client_secret', 'scopes']
 
 #API_KEY = current_app.config['GPLUS_APIKEY']
 #API = 'plusDomains'

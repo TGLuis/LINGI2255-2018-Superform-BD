@@ -1,9 +1,11 @@
+import json
 import os
 
 import flask
 from flask import Blueprint
 
 import google_auth_oauthlib.flow
+import requests
 
 Gplus_page = Blueprint('Gplus', __name__)
 
@@ -54,9 +56,9 @@ def oauth2callback():
   # ACTION ITEM: In a production app, you likely want to save these
   #              credentials in a persistent database instead.
   credentials = flow.credentials
-  flask.session['credentials'] = credentials_to_dict(credentials)
+  flask.session['credentials']=credentials_to_dict(credentials)
 
-  return flask.redirect(flask.url_for('channels.channel_list'))
+  return flask.redirect(flask.url_for('channels.configure_channel', id=flask.session['id']))
 
 def credentials_to_dict(credentials):
   return {'token': credentials.token,
