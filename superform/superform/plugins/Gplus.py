@@ -1,9 +1,11 @@
-from flask import current_app
 import pprint
-#import json
-#import httplib2
-#from apiclient import discovery
-#from oauth2client.client import OAuth2WebServerFlow
+
+
+
+# This variable specifies the name of a file that contains the OAuth 2.0
+# information for this application, including its client_id and client_secret.
+CLIENT_SECRETS_FILE = "client_secret.json"
+
 
 
 FIELDS_UNAVAILABLE = ['Title']
@@ -20,6 +22,9 @@ CONFIG_FIELDS = ["sender"]
 SCOPES = ['https://www.googleapis.com/auth/plus.me',
           'https://www.googleapis.com/auth/plus.stream.write']
 #REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
+
+
+
 
 
 def run(publishing,channel_config):
@@ -70,3 +75,4 @@ def create_activity_body(publishing):
         }
     }
     return body
+
