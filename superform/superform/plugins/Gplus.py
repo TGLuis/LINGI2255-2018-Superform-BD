@@ -1,4 +1,8 @@
+import json
 import pprint
+
+import google.oauth2.credentials
+import googleapiclient.discovery
 
 
 
@@ -28,8 +32,9 @@ SCOPES = ['https://www.googleapis.com/auth/plus.me',
 
 
 def run(publishing,channel_config):
+
     # Create the client object
-    service = create_client_object()
+    service = create_client_object(channel_config)
 
     # We can then refer to this client with 'me'
     user_id = 'me'
@@ -45,12 +50,25 @@ def run(publishing,channel_config):
     print('Result = %s' % pprint.pformat(result))
 
 
-def create_client_object(ajoutezdesargsptn):
+def create_client_object(channel_config):
     """Creates a client object that allows us to publish posts
     :param ajoutezdesargsptn:
     :return: a client object # TODO change arg name!!!
     """
-    pass
+    credential=json.loads(channel_config)
+    credentials = google.oauth2.credentials.Credentials(
+       **credential)
+
+    service = googleapiclient.discovery.build(
+       'plus', 'v1', credentials=credentials)
+    people_resource = service.people()
+    people_document = people_resource.get(userId='me').execute()
+    return people_document
+
+    # print( "ID: " + people_document['id'])
+    # print("Display name: " + people_document['displayName'])
+    # print("Image URL: " + people_document['image']['url'])
+    # print("Profile URL: " + people_document['url'])
 
 def create_activity_body(publishing):
     """Creates the body of an activity specifying the content of the publication, restrictions on who will be able
