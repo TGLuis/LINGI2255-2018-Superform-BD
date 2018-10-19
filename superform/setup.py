@@ -9,6 +9,7 @@ setup(
         'google-auth-oauthlib',
         'google-auth-httplib2',
         'requests',
-        'python3-saml', 'sqlalchemy'
+        'python3-saml', 'sqlalchemy',
+        'pytest'
     ],
 )

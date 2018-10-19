@@ -28,6 +28,7 @@ def client():
 
 def test_run_gplus(client):
     # Is there a way to test a publishing method ? I think Yes ...
+
     assert True == True
 
 

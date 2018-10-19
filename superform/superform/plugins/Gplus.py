@@ -29,7 +29,7 @@ SCOPES = ['https://www.googleapis.com/auth/plus.me',
 Gplus_page = Blueprint('Gplus', __init__.__name__)
 
 
-def run(publishing,channel_config):
+def run(publishing, channel_config):
     """Publishes the Google+ activity represented in @publishing, on the Google+ channel in channel_config.
     :param publishing: the data of the Google+ activity to be published
     :param channel_config: the configuration of the Google+ channel on which the activity will be published
@@ -49,6 +49,7 @@ def run(publishing,channel_config):
 
     # Print the results
     print('Result = %s' % pprint.pformat(result))
+    # return result
 
 
 def create_client_object(channel_config):
