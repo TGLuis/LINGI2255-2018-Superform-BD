@@ -4,10 +4,23 @@ import tempfile
 
 import pytest
 import json
+import unittest
 
 import superform.plugins.Gplus as Gplus
+import publishings as Publishing
+
 
 from superform import app, db
+
+class TestGPlus(unittest.TestCase):
+    def test_login(self):
+        pass
+
+    def test_publish(self):
+        my_publy = Publishing()
+
+if __name__ == "__main__":
+    unittest.main()
 
 
 @pytest.fixture
@@ -45,3 +58,4 @@ def is_json(myjson):
     except ValueError:
         return False
     return True
+
