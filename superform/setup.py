@@ -5,10 +5,12 @@ setup(
     include_package_data=True,
     install_requires=[
         'flask',
+        'flask-sqlalchemy',
         'google-api-python-client',
         'google-auth-oauthlib',
         'google-auth-httplib2',
         'requests',
-        'python3-saml', 'sqlalchemy'
+        'python3-saml', 'sqlalchemy',
+        'pytest'
     ],
 )
