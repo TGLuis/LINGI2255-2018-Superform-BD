@@ -82,16 +82,25 @@ def create_activity_body(publishing):
     # Add publication data
     object['originalContent'] = publishing.description
 
+    ## Add attacements ##
+    attachements=[]
+
     # Add link url
     if publishing.link_url is not None:
-        object['url'] = publishing.link_url
+        attachement = dict()
+        attachement['url'] = publishing.image_url
+        attachement['objectType'] = 'photo'
+        attachements.append(attachement)
 
     # Add image url
     if publishing.image_url is not None:
-        attachements = dict()
-        attachements['url'] = publishing.image_url
-        attachements['objectType'] = 'photo'
-        object['attachements'] = [attachements]
+        attachement = dict()
+        attachement['url'] = publishing.image_url
+        attachement['objectType'] = 'photo'
+        attachements.append(attachement)
+
+    if attachement is not []:
+        object['attachements'] = attachements
 
     # Set access control #Todo manage more specific options (circle, etc.)
     access['items'] = [{'type': 'domain'}]
