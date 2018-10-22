@@ -16,10 +16,10 @@ CONFIG_FIELDS = ['token', 'refresh_token', 'token_uri', 'client_id', 'client_sec
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = "superform/config.json"
+CLIENT_SECRETS_FILE = "superform/configs/Gplus.json"
 
 # Google+ API
-API = 'plus'
+API = 'plusDomains'
 API_VERSION = 'v1'
 
 # List of scopes required to create posts:
