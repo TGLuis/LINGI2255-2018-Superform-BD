@@ -86,12 +86,12 @@ def create_activity_body(publishing):
     if publishing.link_url is not None:
         object['url'] = publishing.link_url
 
-    # Add image url #Todo add image
+    # Add image url
     if publishing.image_url is not None:
-        #fullimage = dict()
-        #fullimage['url'] = publishing.image_url
-        #object['attachements'] = [{'fullimage', fullimage}]
-        pass
+        attachements = dict()
+        attachements['url'] = publishing.image_url
+        attachements['objectType'] = 'photo'
+        object['attachements'] = [attachements]
 
     # Set access control #Todo manage more specific options (circle, etc.)
     access['items'] = [{'type': 'domain'}]
