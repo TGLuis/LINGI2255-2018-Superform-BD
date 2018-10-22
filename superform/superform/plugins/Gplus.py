@@ -1,5 +1,6 @@
 import json
 import pprint
+from flask import current_app
 
 # Google+ API
 import google.oauth2.credentials
@@ -13,10 +14,6 @@ from superform import __init__
 
 FIELDS_UNAVAILABLE = ['Title']
 CONFIG_FIELDS = ['token', 'refresh_token', 'token_uri', 'client_id', 'client_secret', 'scopes']
-
-# This variable specifies the name of a file that contains the OAuth 2.0
-# information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = "superform/configs/Gplus.json"
 
 # Google+ API
 API = 'plusDomains'
@@ -111,8 +108,8 @@ def authorize():
     :return: a response object that, if called, redirects the client to the authorization url
     """
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
-    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-      CLIENT_SECRETS_FILE, scopes=SCOPES)
+    flow = google_auth_oauthlib.flow.Flow.from_client_config(
+        current_app.config["GPLUS_CONFIG"], scopes=SCOPES)
 
     flow.redirect_uri = url_for('Gplus.oauth2callback',  _external=True)
 
@@ -138,8 +135,8 @@ def oauth2callback():
     # verified in the authorization server response.
     state = session['state']
 
-    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-      CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
+    flow = google_auth_oauthlib.flow.Flow.from_client_config(
+        current_app.config["GPLUS_CONFIG"], scopes=SCOPES, state=state)
     flow.redirect_uri = url_for('Gplus.oauth2callback', _external=True)
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
