@@ -39,7 +39,8 @@ def create_a_publishing(post, chn, form):
     if chn.module == "superform.plugins.Gplus":
         extra['disablesharing'] = True if form.get(chan + "_disablesharing") is not None else False
         extra['disablecomments'] = True if form.get(chan + "_disablecomments") is not None else False
-        extra['circles'] = form.get(chan + "_circles") if not None else []
+        print(form.get(chan + "_tamere_circle"))
+        extra['circles'] = form.get(chan + "_circle") if not None else []
 
     pub = Publishing(post_id=post.id, channel_id=chan, state=0, title=title_post, description=descr_post,
                      link_url=link_post, image_url=image_post,
@@ -62,7 +63,7 @@ def new_post():
     #for chan in list_of_channels:
     #    if chan.module=='superform.plugins.Gplus':
     #        circles[chan.id] = list_circle(chan.config)
-    circles[2] = ['My domain', 'phillliiiipe', 'tamere', '69', '42']
+    circles[1] = ['My domain', 'phillliiiipe', 'tamere', '69', '42']
 
     for elem in list_of_channels:
         m = elem.module

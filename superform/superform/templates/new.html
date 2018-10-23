@@ -144,7 +144,7 @@
                                             {% for circle in list_circles[chan.id] %}
                                             <div class="form-check">
                                                 <label class="form-check-label" >
-                                                    <input id="{{ chan.name }}_circle_{{circle}}" name="{{ chan.name }}_circle_{{circle}}" {% if circle == "My domain" %} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
+                                                    <input id="{{ chan.name }}_{{circle}}_circle" name="{{ chan.name }}_circle_{{circle}}" {% if circle == "My domain" %} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
                                                     {{circle}}
                                                 </label>
                                             </div>
@@ -308,6 +308,15 @@
             $('input')
                 .filter(function() {
                     return this.id.match(/.*disablecomments/);
+                })
+                .val(text);
+        });
+        $('#circle').one("change",function(event){
+            text = ($(this).val());
+            //This is a subselect of input that match with the regex .*circle
+            $('input')
+                .filter(function() {
+                    return this.id.match(/.*circle/);
                 })
                 .val(text);
         });
