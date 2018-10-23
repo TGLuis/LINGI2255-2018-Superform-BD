@@ -72,7 +72,7 @@ def new_post():
     #for chan in list_of_channels:
     #    if chan.module=='superform.plugins.Gplus':
     #        circles[chan.id] = list_circle(chan.config)
-    circles[1] = ['My domain', 'phillliiiipe', 'tamere', '69', '42']
+    circles[1] = ['My Domain (Publish in Public)', 'phillliiiipe', 'tamere', '69', '42']
 
     for elem in list_of_channels:
         m = elem.module

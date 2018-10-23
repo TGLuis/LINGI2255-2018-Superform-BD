@@ -144,7 +144,7 @@
                                             {% for circle in list_circles[chan.id] %}
                                             <div class="form-check">
                                                 <label class="form-check-label" >
-                                                    <input id="{{ chan.name }}_{{circle}}_circle" name="{{ chan.name }}_{{circle}}_circle" {% if circle == "Public" %} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
+                                                    <input id="{{ chan.name }}_{{circle}}_circle" name="{{ chan.name }}_{{circle}}_circle" {% if circle == "My Domain (Publish in Public)" %} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
                                                     {{circle}}
                                                 </label>
                                             </div>
