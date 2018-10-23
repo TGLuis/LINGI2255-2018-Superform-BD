@@ -1,8 +1,8 @@
 from flask import Blueprint, url_for, request, redirect, session, render_template
-
 from superform.users import channels_available_for_user
 from superform.utils import login_required, datetime_converter, str_converter, get_instance_from_module_path
 from superform.models import db, Post, Publishing, Channel
+import json
 from superform.plugins.Gplus import list_circle
 
 posts_page = Blueprint('posts', __name__)
@@ -34,11 +34,17 @@ def create_a_publishing(post, chn, form):
         form.get(chan + '_datefrompost')) is not None else post.date_from
     date_until = datetime_converter(form.get(chan + '_dateuntilpost')) if datetime_converter(
         form.get(chan + '_dateuntilpost')) is not None else post.date_until
-    disablesharing = form.get(chan + "_disablesharing")
-    disablecomments
+
+    extra = dict()
+    if chn.module == "superform.plugins.Gplus":
+        extra['disablesharing'] = form.get(chan + "_disablesharing") if not None else False
+        extra['disablecomments'] = form.get(chan + "_disablecomments") if not None else False
+        extra['circles'] = form.get(chan + "_circles") if not None else []
+
     pub = Publishing(post_id=post.id, channel_id=chan, state=0, title=title_post, description=descr_post,
                      link_url=link_post, image_url=image_post,
-                     date_from=date_from, date_until=date_until)
+                     date_from=date_from, date_until=date_until,
+                     extra=json.dumps(extra))
 
     db.session.add(pub)
     db.session.commit()
