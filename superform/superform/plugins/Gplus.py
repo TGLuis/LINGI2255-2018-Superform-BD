@@ -176,9 +176,9 @@ def credentials_to_json(credentials):
 def list_circle(channel_config):
     """Create a list of all the circles and domain of friends of the user related to the credential in channel_config
     :param channel_config: the credential of the user
-    :return: a list of tuples with the circles in the form (Name,ID) and (all,Domain)
+    :return: a list of tuples with the circles names
     """
-    result = [('all', 'Domain')]
+    result = ['all']
     service = create_client_object(channel_config)
 
     circle_service = service.circles()
@@ -190,8 +190,39 @@ def list_circle(channel_config):
         if circle_list.get('items') is not None:
             circles = circle_list.get('items')
             for circle in circles:
-                result.append((circle.get('displayName'), circle.get('circleId')))
+                result.append(circle.get('displayName'))
 
         request = circle_service.list_next(request, circle_list)
 
     return result
+
+
+def acess_from_list(circles, service):
+    """Create a dictionary from the list of circles
+    :param circles: a list with all the circles names or all if we want to publish to everybody
+    :param service: a service initialised from the user
+    :return: a dictionary in the format for the field acess require for a google post
+    """
+    access = dict()
+    if 'all' in circles:
+        access['items'] = [{'type': 'domain'}]
+        return access
+
+    circle_service = service.circles()
+    request = circle_service.list(userId='me')
+
+    items = []
+    for circleName in circles:
+        while request is not None:
+            circle_list = request.execute()
+
+            if circle_list.get('items') is not None:
+                circles = circle_list.get('items')
+                for circle in circles:
+                    if circle.get('displayName')==circleName:
+                        items.append({"type": "circle", "id": str(circle.get('circleId'))})
+
+            request = circle_service.list_next(request, circle_list)
+
+    access['items'] = items
+    return access
