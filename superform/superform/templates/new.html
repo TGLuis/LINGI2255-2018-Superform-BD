@@ -293,6 +293,24 @@
                 })
                 .val(text);
         });
+        $('#disablesharing').one("change",function(event){
+            text = ($(this).val());
+            //This is a subselect of input that match with the regex .*disablesharing
+            $('input')
+                .filter(function() {
+                    return this.id.match(/.*disablesharing/);
+                })
+                .val(text);
+        });
+        $('#disablecomments').one("change",function(event){
+            text = ($(this).val());
+            //This is a subselect of input that match with the regex .*disablecomments
+            $('input')
+                .filter(function() {
+                    return this.id.match(/.*disablecomments/);
+                })
+                .val(text);
+        });
 
 
 
