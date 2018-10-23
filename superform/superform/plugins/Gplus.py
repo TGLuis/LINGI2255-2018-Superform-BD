@@ -83,7 +83,7 @@ def create_activity_body(publishing):
     object['originalContent'] = publishing.description
 
     ## Add attacements ##
-    attachements=[]
+    attachements = []
 
     # Add link url
     if publishing.link_url is not None:
@@ -120,14 +120,14 @@ def authorize():
     flow = google_auth_oauthlib.flow.Flow.from_client_config(
         current_app.config["GPLUS_CONFIG"], scopes=SCOPES)
 
-    flow.redirect_uri = url_for('Gplus.oauth2callback',  _external=True)
+    flow.redirect_uri = url_for('Gplus.oauth2callback', _external=True)
 
     authorization_url, state = flow.authorization_url(
-      # Enable offline access so that we can refresh an access token without
-      # re-prompting the user for permission. Recommended for web server apps.
-      access_type='offline',
-      # Enable incremental authorization. Recommended as a best practice.
-      include_granted_scopes='true')
+        # Enable offline access so that we can refresh an access token without
+        # re-prompting the user for permission. Recommended for web server apps.
+        access_type='offline',
+        # Enable incremental authorization. Recommended as a best practice.
+        include_granted_scopes='true')
 
     # Store the state so the callback can verify the auth server response.
     session['state'] = state
@@ -154,7 +154,7 @@ def oauth2callback():
 
     # Store credentials in the session.
     credentials = flow.credentials
-    session['credentials']=credentials_to_json(credentials)
+    session['credentials'] = credentials_to_json(credentials)
 
     return redirect(url_for('channels.configure_channel', id=session['id']))
 
@@ -173,3 +173,25 @@ def credentials_to_json(credentials):
     return json.dumps(dictionary)
 
 
+def list_circle(channel_config):
+    """Create a list of all the circles and domain of friends of the user related to the credential in channel_config
+    :param channel_config: the credential of the user
+    :return: a list of tuples with the circles in the form (Name,ID) and (all,Domain)
+    """
+    result = [('all', 'Domain')]
+    service = create_client_object(channel_config)
+
+    circle_service = service.circles()
+    request = circle_service.list(userId='me')
+
+    while request is not None:
+        circle_list = request.execute()
+
+        if circle_list.get('items') is not None:
+            circles = circle_list.get('items')
+            for circle in circles:
+                result.append((circle.get('displayName'), circle.get('circleId')))
+
+        request = circle_service.list_next(request, circle_list)
+
+    return result
