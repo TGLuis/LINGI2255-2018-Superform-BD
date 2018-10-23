@@ -1,3 +1,5 @@
+import re
+
 from flask import Blueprint, url_for, request, redirect, session, render_template
 from superform.users import channels_available_for_user
 from superform.utils import login_required, datetime_converter, str_converter, get_instance_from_module_path
@@ -39,8 +41,15 @@ def create_a_publishing(post, chn, form):
     if chn.module == "superform.plugins.Gplus":
         extra['disablesharing'] = True if form.get(chan + "_disablesharing") is not None else False
         extra['disablecomments'] = True if form.get(chan + "_disablecomments") is not None else False
-        print(form.get(chan + "_tamere_circle"))
-        extra['circles'] = form.get(chan + "_circle") if not None else []
+        circles = []
+        for key in form.to_dict().keys():
+            print(key)
+            if re.match(chan + r"_.+_circle", key):
+                print("wow")
+                circles.insert(0, key.split("_")[1])
+        print(circles)
+
+        extra['circles'] = circles
 
     pub = Publishing(post_id=post.id, channel_id=chan, state=0, title=title_post, description=descr_post,
                      link_url=link_post, image_url=image_post,
