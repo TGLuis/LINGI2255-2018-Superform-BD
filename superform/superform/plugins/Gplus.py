@@ -116,13 +116,13 @@ def create_activity_body(publishing, service):
         object['attachements'] = attachements
 
     # fetch disabling
-    extra = publishing.extra.dumps
+    extra = json.dumps(publishing.extra)
     statusForViewers['resharingDisabled'] = extra['disablesharing']
     statusForViewers['canComment'] = extra['disablecomments']
     object['statusForViewers'] = statusForViewers
 
     # Set access control
-    access = access_from_list(object['circles'], service)
+    access = access_from_list(extra['circles'], service)
 
     # Add the sub-dictionaries to the body
     body['object'] = object

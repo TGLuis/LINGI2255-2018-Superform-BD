@@ -36,6 +36,39 @@
                             </div>
                         </div>
                     </div>
+                    {% if module == "superform.plugins.Gplus" %}
+                        <div class="form-group">
+                            <label for="jsp"> Publication options </label>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input id="disablesharing" name="disablesharing" type="checkbox" class="form-check-input checkbox checked" {% if pub.extra["disablesharing"] %} checked {% endif %}>
+                                    Disable sharing
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input id="disablecomments" name="disablecomments" type="checkbox" class="form-check-input checkbox checked" {% if pub.extra["disablecomments"] %} checked {% endif %}>
+                                    Disable comments
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="jsp"> Collections of distribution </label>
+                            <div class="card" style="width: 33%; min-width: 300px">
+                                <div class="card-header">Circles</div>
+                                <div class="card-body">
+                                    {% for circle in list_circles %}
+                                        <div class="form-check">
+                                            <label class="form-check-label" >
+                                                <input id="{{circle}}_circle" name="{{circle}}_circle" {% if circle in  pub.extra["circles"]%} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
+                                                {{circle}}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
 
                 </div>
             </div>
