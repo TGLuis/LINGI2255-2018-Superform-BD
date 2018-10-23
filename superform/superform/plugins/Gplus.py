@@ -90,6 +90,8 @@ def create_activity_body(publishing):
     object = dict()
     # Dictionary containing the access restrictions to the publication
     access = dict()
+    # Dictionary containing the comments and sharing restrictions
+    statusForViewers = dict()
 
     # Add publication data
     object['originalContent'] = publishing.description
@@ -100,8 +102,8 @@ def create_activity_body(publishing):
     # Add link url
     if publishing.link_url is not None:
         attachement = dict()
-        attachement['url'] = publishing.image_url
-        attachement['objectType'] = 'photo'
+        attachement['url'] = publishing.link_url
+        attachement['objectType'] = 'article'
         attachements.append(attachement)
 
     # Add image url
@@ -113,6 +115,11 @@ def create_activity_body(publishing):
 
     if attachement is not []:
         object['attachements'] = attachements
+
+    # fetch disabling options
+    statusForViewers['resharingDisabled'] = publishing.disablesharing
+    statusForViewers['canComment'] = publishing.disablecomments
+    object['statusForViewers'] = statusForViewers
 
     # Set access control #Todo manage more specific options (circle, etc.)
     access['items'] = [{'type': 'domain'}]
