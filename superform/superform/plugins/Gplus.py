@@ -116,9 +116,10 @@ def create_activity_body(publishing):
     if attachement is not []:
         object['attachements'] = attachements
 
-    # fetch disabling options
-    statusForViewers['resharingDisabled'] = publishing.disablesharing
-    statusForViewers['canComment'] = publishing.disablecomments
+    # fetch disabling
+    extra = publishing.extra.dumps
+    statusForViewers['resharingDisabled'] = extra['disablesharing']
+    statusForViewers['canComment'] = extra['disablecomments']
     object['statusForViewers'] = statusForViewers
 
     # Set access control #Todo manage more specific options (circle, etc.)
