@@ -144,7 +144,7 @@
                                             {% for circle in list_circles[chan.id] %}
                                             <div class="form-check">
                                                 <label class="form-check-label" >
-                                                    <input id="{{ chan.name }}_{{circle[0]}}_circle" name="{{ chan.name }}_{{circle[0]}}_circle" {% if circle[0] == "domain" %} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
+                                                    <input id="{{ chan.name }}_{{circle[0]}}_circle" name="{{ chan.name }}_{{circle[0]}}_circle" {% if circle[0] == "domain" %} checked {% endif %} type="checkbox" {% if circle[0] == "domain" %} class="form-check-input checkbox checked checkbox1" {% endif %} {% if circle[0] != "domain" %} class="form-check-input checkbox checked checkbox2" {% endif %}>
                                                     {{circle[1]}}
                                                 </label>
                                             </div>
@@ -321,6 +321,24 @@
                 .val(text);
         });
 
+        $('#circle').click(function () {
+            checkedState = $(this).attr('checked');
+            $(this).parent('div').children('#circle').each(function () {
+                $(this).attr('checked', false);
+            });
+            $(this).attr('checked', checkedState);
+        });
+
+        var enforeMutualExcludedCheckBox = function(group){
+            return function() {
+                var isChecked= $(this).prop("checked");
+                $(group).prop("checked", false);
+                $(this).prop("checked", isChecked);
+            }
+        };
+
+        $(".checkbox1").click(enforeMutualExcludedCheckBox(".checkbox2"));
+        $(".checkbox2").click(enforeMutualExcludedCheckBox(".checkbox1"));
 
 
     </script>

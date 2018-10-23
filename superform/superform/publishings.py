@@ -20,7 +20,7 @@ def moderate_publishing(id,idc):
         # add the circles (specific for google+)
         # if chan.module=='superform.plugins.Gplus':
         #     circles = list_circle(chan.config)
-        circles = [('domain', 'My Domain (Publish in Public)'), ('1', 'phillliiiipe'), ('2', 'tamere'), ('3', '69'),
+        circles = [('domain', 'All my circles'), ('1', 'phillliiiipe'), ('2', 'tamere'), ('3', '69'),
                    ('4', '42')]
         return render_template('moderate_post.html', pub=pub, list_circles=circles, module=chan.module)
     else:

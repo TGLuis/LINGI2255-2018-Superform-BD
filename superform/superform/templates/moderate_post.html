@@ -60,7 +60,7 @@
                                     {% for circle in list_circles %}
                                         <div class="form-check">
                                             <label class="form-check-label" >
-                                                <input id="{{circle[0]}}_circle" name="{{circle[0]}}_circle" {% if circle[0] in  pub.extra["circles"]%} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
+                                                <input id="{{circle[0]}}_circle" name="{{circle[0]}}_circle" {% if circle[0] in  pub.extra["circles"]%} checked {% endif %} type="checkbox" {% if circle[0] == "domain" %} class="form-check-input checkbox checked checkbox1" {% endif %} {% if circle[0] != "domain" %} class="form-check-input checkbox checked checkbox2" {% endif %}>
                                                 {{circle[1]}}
                                             </label>
                                         </div>
@@ -77,5 +77,23 @@
     {% else %}
         Your are not logged in.
     {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var enforeMutualExcludedCheckBox = function(group){
+            return function() {
+                var isChecked= $(this).prop("checked");
+                $(group).prop("checked", false);
+                $(this).prop("checked", isChecked);
+            }
+        };
+
+        $(".checkbox1").click(enforeMutualExcludedCheckBox(".checkbox2"));
+        $(".checkbox2").click(enforeMutualExcludedCheckBox(".checkbox1"));
+
+
+    </script>
 
 {% endblock %}
