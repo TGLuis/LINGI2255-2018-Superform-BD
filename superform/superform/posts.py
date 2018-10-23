@@ -34,6 +34,8 @@ def create_a_publishing(post, chn, form):
         form.get(chan + '_datefrompost')) is not None else post.date_from
     date_until = datetime_converter(form.get(chan + '_dateuntilpost')) if datetime_converter(
         form.get(chan + '_dateuntilpost')) is not None else post.date_until
+    disablesharing = form.get(chan + "_disablesharing")
+    disablecomments
     pub = Publishing(post_id=post.id, channel_id=chan, state=0, title=title_post, description=descr_post,
                      link_url=link_post, image_url=image_post,
                      date_from=date_from, date_until=date_until)
@@ -85,7 +87,7 @@ def publish_from_new_post():
                 c = Channel.query.get(substr(elem))
                 # for each selected channel options
                 # create the publication
-                pub = create_a_publishing(p, c, request.form)
+                _ = create_a_publishing(p, c, request.form)
 
     db.session.commit()
     return redirect(url_for('index'))
