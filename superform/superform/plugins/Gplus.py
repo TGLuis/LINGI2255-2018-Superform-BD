@@ -16,7 +16,7 @@ FIELDS_UNAVAILABLE = ['Title']
 CONFIG_FIELDS = ['token', 'refresh_token', 'token_uri', 'client_id', 'client_secret', 'scopes']
 
 # Google+ API
-API = 'plusDomains'
+API = 'plus'
 API_VERSION = 'v1'
 
 # List of scopes required to create posts:
@@ -48,6 +48,18 @@ def run(publishing, channel_config):
     print('Result = %s' % pprint.pformat(result))
     # return result
 
+def create_client_service(channel_config):
+    """Creates a client object that allows us to publish posts
+    :param channel_config: the configuration of the Google+ channel on which the activity will be published
+    :return: a client object
+    """
+
+    # Load credentials
+    credentials = google.oauth2.credentials.Credentials(**json.loads(channel_config))
+
+    # Load API + get client object
+    service = discovery.build(API, API_VERSION, credentials=credentials)
+    return service
 
 def create_client_object(channel_config):
     """Creates a client object that allows us to publish posts
@@ -179,7 +191,7 @@ def list_circle(channel_config):
     :return: a list of tuples with the circles names
     """
     result = ['all']
-    service = create_client_object(channel_config)
+    service = create_client_service(channel_config)
 
     circle_service = service.circles()
     request = circle_service.list(userId='me')
@@ -197,7 +209,7 @@ def list_circle(channel_config):
     return result
 
 
-def acess_from_list(circles, service):
+def access_from_list(circles, service):
     """Create a dictionary from the list of circles
     :param circles: a list with all the circles names or all if we want to publish to everybody
     :param service: a service initialised from the user
