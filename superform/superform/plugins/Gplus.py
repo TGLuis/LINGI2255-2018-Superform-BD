@@ -1,5 +1,6 @@
 import json
 import pprint
+from flask import current_app
 
 # Google+ API
 import google.oauth2.credentials
@@ -14,12 +15,8 @@ from superform import __init__
 FIELDS_UNAVAILABLE = ['Title']
 CONFIG_FIELDS = ['token', 'refresh_token', 'token_uri', 'client_id', 'client_secret', 'scopes']
 
-# This variable specifies the name of a file that contains the OAuth 2.0
-# information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = "superform/configs/Gplus.json"
-
 # Google+ API
-API = 'plusDomains'
+API = 'plus'
 API_VERSION = 'v1'
 
 # List of scopes required to create posts:
@@ -43,14 +40,26 @@ def run(publishing, channel_config):
 
     # Insert the activity
     result = service.activities().insert(
-        userId = user_id,
-        body = body
+        userId=user_id,
+        body=body
     ).execute()
 
     # Print the results
     print('Result = %s' % pprint.pformat(result))
     # return result
 
+def create_client_service(channel_config):
+    """Creates a client object that allows us to publish posts
+    :param channel_config: the configuration of the Google+ channel on which the activity will be published
+    :return: a client object
+    """
+
+    # Load credentials
+    credentials = google.oauth2.credentials.Credentials(**json.loads(channel_config))
+
+    # Load API + get client object
+    service = discovery.build(API, API_VERSION, credentials=credentials)
+    return service
 
 def create_client_object(channel_config):
     """Creates a client object that allows us to publish posts
@@ -81,20 +90,36 @@ def create_activity_body(publishing):
     object = dict()
     # Dictionary containing the access restrictions to the publication
     access = dict()
+    # Dictionary containing the comments and sharing restrictions
+    statusForViewers = dict()
 
     # Add publication data
     object['originalContent'] = publishing.description
 
+    ## Add attacements ##
+    attachements = []
+
     # Add link url
     if publishing.link_url is not None:
-        object['url'] = publishing.link_url
+        attachement = dict()
+        attachement['url'] = publishing.link_url
+        attachement['objectType'] = 'article'
+        attachements.append(attachement)
 
-    # Add image url #Todo add image
+    # Add image url
     if publishing.image_url is not None:
-        #fullimage = dict()
-        #fullimage['url'] = publishing.image_url
-        #object['attachements'] = [{'fullimage', fullimage}]
-        pass
+        attachement = dict()
+        attachement['url'] = publishing.image_url
+        attachement['objectType'] = 'photo'
+        attachements.append(attachement)
+
+    if attachement is not []:
+        object['attachements'] = attachements
+
+    # fetch disabling options
+    statusForViewers['resharingDisabled'] = publishing.disablesharing
+    statusForViewers['canComment'] = publishing.disablecomments
+    object['statusForViewers'] = statusForViewers
 
     # Set access control #Todo manage more specific options (circle, etc.)
     access['items'] = [{'type': 'domain'}]
@@ -111,17 +136,17 @@ def authorize():
     :return: a response object that, if called, redirects the client to the authorization url
     """
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
-    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-      CLIENT_SECRETS_FILE, scopes=SCOPES)
+    flow = google_auth_oauthlib.flow.Flow.from_client_config(
+        current_app.config["GPLUS_CONFIG"], scopes=SCOPES)
 
-    flow.redirect_uri = url_for('Gplus.oauth2callback',  _external=True)
+    flow.redirect_uri = url_for('Gplus.oauth2callback', _external=True)
 
     authorization_url, state = flow.authorization_url(
-      # Enable offline access so that we can refresh an access token without
-      # re-prompting the user for permission. Recommended for web server apps.
-      access_type='offline',
-      # Enable incremental authorization. Recommended as a best practice.
-      include_granted_scopes='true')
+        # Enable offline access so that we can refresh an access token without
+        # re-prompting the user for permission. Recommended for web server apps.
+        access_type='offline',
+        # Enable incremental authorization. Recommended as a best practice.
+        include_granted_scopes='true')
 
     # Store the state so the callback can verify the auth server response.
     session['state'] = state
@@ -138,8 +163,8 @@ def oauth2callback():
     # verified in the authorization server response.
     state = session['state']
 
-    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-      CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
+    flow = google_auth_oauthlib.flow.Flow.from_client_config(
+        current_app.config["GPLUS_CONFIG"], scopes=SCOPES, state=state)
     flow.redirect_uri = url_for('Gplus.oauth2callback', _external=True)
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
@@ -148,7 +173,7 @@ def oauth2callback():
 
     # Store credentials in the session.
     credentials = flow.credentials
-    session['credentials']=credentials_to_json(credentials)
+    session['credentials'] = credentials_to_json(credentials)
 
     return redirect(url_for('channels.configure_channel', id=session['id']))
 
@@ -167,3 +192,56 @@ def credentials_to_json(credentials):
     return json.dumps(dictionary)
 
 
+def list_circle(channel_config):
+    """Create a list of all the circles and domain of friends of the user related to the credential in channel_config
+    :param channel_config: the credential of the user
+    :return: a list of tuples with the circles names
+    """
+    result = ['all']
+    service = create_client_service(channel_config)
+
+    circle_service = service.circles()
+    request = circle_service.list(userId='me')
+
+    while request is not None:
+        circle_list = request.execute()
+
+        if circle_list.get('items') is not None:
+            circles = circle_list.get('items')
+            for circle in circles:
+                result.append(circle.get('displayName'))
+
+        request = circle_service.list_next(request, circle_list)
+
+    return result
+
+
+def access_from_list(circles, service):
+    """Create a dictionary from the list of circles
+    :param circles: a list with all the circles names or all if we want to publish to everybody
+    :param service: a service initialised from the user
+    :return: a dictionary in the format for the field acess require for a google post
+    """
+    access = dict()
+    if 'all' in circles:
+        access['items'] = [{'type': 'domain'}]
+        return access
+
+    circle_service = service.circles()
+    request = circle_service.list(userId='me')
+
+    items = []
+    for circleName in circles:
+        while request is not None:
+            circle_list = request.execute()
+
+            if circle_list.get('items') is not None:
+                circles = circle_list.get('items')
+                for circle in circles:
+                    if circle.get('displayName') == circleName:
+                        items.append({"type": "circle", "id": str(circle.get('circleId'))})
+
+            request = circle_service.list_next(request, circle_list)
+
+    access['items'] = items
+    return access

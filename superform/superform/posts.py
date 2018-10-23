@@ -3,6 +3,7 @@ from flask import Blueprint, url_for, request, redirect, session, render_templat
 from superform.users import channels_available_for_user
 from superform.utils import login_required, datetime_converter, str_converter, get_instance_from_module_path
 from superform.models import db, Post, Publishing, Channel
+from superform.plugins.Gplus import list_circle
 
 posts_page = Blueprint('posts', __name__)
 
@@ -47,6 +48,14 @@ def create_a_publishing(post, chn, form):
 def new_post():
     user_id = session.get("user_id", "") if session.get("logged_in", False) else -1
     list_of_channels = channels_available_for_user(user_id)
+
+    #add the circles (specific for google+)
+    circles = dict()
+    #for chan in list_of_channels:
+    #    if chan.module=='superform.plugins.Gplus':
+    #        circles[chan.id] = list_circle(chan.config)
+    circles[2] = ['all', 'phillliiiipe', 'tamere', '69', '42']
+
     for elem in list_of_channels:
         m = elem.module
         clas = get_instance_from_module_path(m)
@@ -54,7 +63,7 @@ def new_post():
         setattr(elem, "unavailablefields", unaivalable_fields)
 
     if request.method == "GET":
-        return render_template('new.html', l_chan=list_of_channels)
+        return render_template('new.html', l_chan=list_of_channels, list_circles=circles)
     else:
         create_a_post(request.form)
         return redirect(url_for('index'))
