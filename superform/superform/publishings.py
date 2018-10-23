@@ -20,10 +20,10 @@ def moderate_publishing(id,idc):
         # add the circles (specific for google+)
         # if chan.module=='superform.plugins.Gplus':
         #     circles = list_circle(chan.config)
-        circles = ['My Domain (Publish in Public)', 'phillliiiipe', 'tamere', '69', '42']
+        circles = [('domain', 'My Domain (Publish in Public)'), ('1', 'phillliiiipe'), ('2', 'tamere'), ('3', '69'),
+                   ('4', '42')]
         return render_template('moderate_post.html', pub=pub, list_circles=circles, module=chan.module)
     else:
-        print(request.form)
         extra = dict()
         if chan.module == "superform.plugins.Gplus":
             extra['disablesharing'] = True if request.form.get("disablesharing") is not None else False
@@ -42,7 +42,6 @@ def moderate_publishing(id,idc):
         pub.date_until = datetime_converter(request.form.get('dateuntilpost'))
         #state is shared & validated
         pub.state = 1
-        print(pub)
         db.session.commit()
         #running the plugin here
         c=db.session.query(Channel).filter(Channel.name == pub.channel_id).first()
@@ -50,7 +49,7 @@ def moderate_publishing(id,idc):
         c_conf = c.config
         from importlib import import_module
         plugin = import_module(plugin_name)
-        plugin.run(pub,c_conf)
+        plugin.run(pub, c_conf)
 
         return redirect(url_for('index'))
 

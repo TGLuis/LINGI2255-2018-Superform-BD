@@ -60,8 +60,8 @@
                                     {% for circle in list_circles %}
                                         <div class="form-check">
                                             <label class="form-check-label" >
-                                                <input id="{{circle}}_circle" name="{{circle}}_circle" {% if circle in  pub.extra["circles"]%} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
-                                                {{circle}}
+                                                <input id="{{circle[0]}}_circle" name="{{circle[0]}}_circle" {% if circle[0] in  pub.extra["circles"]%} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
+                                                {{circle[1]}}
                                             </label>
                                         </div>
                                     {% endfor %}

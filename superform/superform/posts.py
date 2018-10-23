@@ -43,11 +43,8 @@ def create_a_publishing(post, chn, form):
         extra['disablecomments'] = True if form.get(chan + "_disablecomments") is not None else False
         circles = []
         for key in form.to_dict().keys():
-            print(key)
             if re.match(chan + r"_.+_circle", key):
-                print("wow")
                 circles.insert(0, key.split("_")[1])
-        print(circles)
 
         extra['circles'] = circles
 
@@ -72,7 +69,7 @@ def new_post():
     #for chan in list_of_channels:
     #    if chan.module=='superform.plugins.Gplus':
     #        circles[chan.id] = list_circle(chan.config)
-    circles[1] = ['My Domain (Publish in Public)', 'phillliiiipe', 'tamere', '69', '42']
+    circles[1] = [('domain', 'My Domain (Publish in Public)'), ('1', 'phillliiiipe'), ('2', 'tamere'), ('3', '69'), ('4', '42')]
 
     for elem in list_of_channels:
         m = elem.module

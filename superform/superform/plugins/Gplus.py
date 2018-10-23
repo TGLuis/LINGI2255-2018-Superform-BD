@@ -36,7 +36,7 @@ def run(publishing, channel_config):
 
     # We can then refer to this client with 'me'
     user_id = 'me'
-    body = create_activity_body(publishing, service)
+    body = create_activity_body(publishing)
 
     # Insert the activity
     result = service.activities().insert(
@@ -47,6 +47,7 @@ def run(publishing, channel_config):
     # Print the results
     print('Result = %s' % pprint.pformat(result))
     # return result
+
 
 def create_client_service(channel_config):
     """Creates a client object that allows us to publish posts
@@ -60,6 +61,7 @@ def create_client_service(channel_config):
     # Load API + get client object
     service = discovery.build(API, API_VERSION, credentials=credentials)
     return service
+
 
 def create_client_object(channel_config):
     """Creates a client object that allows us to publish posts
@@ -77,7 +79,7 @@ def create_client_object(channel_config):
     return people_document
 
 
-def create_activity_body(publishing, service):
+def create_activity_body(publishing):
     """Creates the body of an activity specifying the content of the publication, restrictions on who will be able
     to see the activity and other options.
     See https://developers.google.com/+/web/api/rest/latest/activities for infos about the activity options
@@ -122,7 +124,7 @@ def create_activity_body(publishing, service):
     object['statusForViewers'] = statusForViewers
 
     # Set access control
-    access = access_from_list(extra['circles'], service)
+    access = access_from_list(extra['circles'])
 
     # Add the sub-dictionaries to the body
     body['object'] = object
@@ -195,9 +197,9 @@ def credentials_to_json(credentials):
 def list_circle(channel_config):
     """Create a list of all the circles and domain of friends of the user related to the credential in channel_config
     :param channel_config: the credential of the user
-    :return: a list of tuples with the circles names
+    :return: a list of tuples with the circles names and id in the form (id,name)
     """
-    result = ['all']
+    result = ['domain', 'My Domain (Publish in Public)']
     service = create_client_service(channel_config)
 
     circle_service = service.circles()
@@ -209,39 +211,26 @@ def list_circle(channel_config):
         if circle_list.get('items') is not None:
             circles = circle_list.get('items')
             for circle in circles:
-                result.append(circle.get('displayName'))
+                result.append( (str(circle.get('circleId')), circle.get('displayName')) )
 
         request = circle_service.list_next(request, circle_list)
 
     return result
 
 
-def access_from_list(circles, service):
+def access_from_list(circles):
     """Create a dictionary from the list of circles
-    :param circles: a list with all the circles names or all if we want to publish to everybody
-    :param service: a service initialised from the user
+    :param circles: a list with all the circles id or domain if we want to publish to everybody
     :return: a dictionary in the format for the field acess require for a google post
     """
     access = dict()
-    if 'all' in circles:
+    if 'domain' in circles:
         access['items'] = [{'type': 'domain'}]
         return access
 
-    circle_service = service.circles()
-    request = circle_service.list(userId='me')
-
     items = []
-    for circleName in circles:
-        while request is not None:
-            circle_list = request.execute()
-
-            if circle_list.get('items') is not None:
-                circles = circle_list.get('items')
-                for circle in circles:
-                    if circle.get('displayName') == circleName:
-                        items.append({"type": "circle", "id": str(circle.get('circleId'))})
-
-            request = circle_service.list_next(request, circle_list)
+    for circleID in circles:
+        items.append({"type": "circle", "id": circleID})
 
     access['items'] = items
     return access
