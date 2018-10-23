@@ -120,6 +120,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% if chan.module == "superform.plugins.Gplus" %}
+                                <div class="form-group">
+                                    <label for="jsp"> Publication options </label>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input id="{{ chan.name }}_disablesharing" name="{{ chan.name }}_disablesharing" type="checkbox" class="form-check-input checkbox checked">
+                                            Disable sharing
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input id="{{ chan.name }}_disablecomments" name="{{ chan.name }}_disablecomments" type="checkbox" class="form-check-input checkbox checked">
+                                            Disable comments
+                                        </label>
+                                    </div>
+                                </div>
+                                {% endif %}
 
                             </div>
                         </div>
