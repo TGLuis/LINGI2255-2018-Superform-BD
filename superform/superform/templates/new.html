@@ -136,6 +136,25 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="jsp"> Collections of distribution </label>
+                                    <div class="card" style="width: 33%; min-width: 300px">
+                                        <div class="card-header">Circles</div>
+                                        <div class="card-body">
+                                            {% for circle in list_circles[chan.id] %}
+                                            <div class="form-check">
+                                                <label class="form-check-label" >
+                                                    <input id="{{ chan.name }}_circle_{{circle}}" name="{{ chan.name }}_circle_{{circle}}" {% if circle == "My domain" %} checked {% endif %} type="checkbox" class="form-check-input checkbox checked">
+                                                    {{circle}}
+                                                </label>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% for circle in list_circles[chan.id] %}
+
+                                {% endfor %}
                                 {% endif %}
 
                             </div>
