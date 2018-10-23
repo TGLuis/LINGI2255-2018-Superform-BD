@@ -50,10 +50,11 @@ def new_post():
     list_of_channels = channels_available_for_user(user_id)
 
     #add the circles (specific for google+)
-    #circles = dict()
+    circles = dict()
     #for chan in list_of_channels:
     #    if chan.module=='superform.plugins.Gplus':
     #        circles[chan.id] = list_circle(chan.config)
+    circles[2] = ['all', 'phillliiiipe', 'tamere', '69', '42']
 
     for elem in list_of_channels:
         m = elem.module
@@ -62,7 +63,7 @@ def new_post():
         setattr(elem, "unavailablefields", unaivalable_fields)
 
     if request.method == "GET":
-        return render_template('new.html', l_chan=list_of_channels)#, list_circles=circles)
+        return render_template('new.html', l_chan=list_of_channels, list_circles=circles)
     else:
         create_a_post(request.form)
         return redirect(url_for('index'))
