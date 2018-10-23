@@ -40,8 +40,8 @@ def run(publishing, channel_config):
 
     # Insert the activity
     result = service.activities().insert(
-        userId = user_id,
-        body = body
+        userId=user_id,
+        body=body
     ).execute()
 
     # Print the results
@@ -219,7 +219,7 @@ def acess_from_list(circles, service):
             if circle_list.get('items') is not None:
                 circles = circle_list.get('items')
                 for circle in circles:
-                    if circle.get('displayName')==circleName:
+                    if circle.get('displayName') == circleName:
                         items.append({"type": "circle", "id": str(circle.get('circleId'))})
 
             request = circle_service.list_next(request, circle_list)
