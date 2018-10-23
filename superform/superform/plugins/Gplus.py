@@ -36,7 +36,7 @@ def run(publishing, channel_config):
 
     # We can then refer to this client with 'me'
     user_id = 'me'
-    body = create_activity_body(publishing)
+    body = create_activity_body(publishing, service)
 
     # Insert the activity
     result = service.activities().insert(
@@ -77,19 +77,18 @@ def create_client_object(channel_config):
     return people_document
 
 
-def create_activity_body(publishing):
+def create_activity_body(publishing, service):
     """Creates the body of an activity specifying the content of the publication, restrictions on who will be able
     to see the activity and other options.
     See https://developers.google.com/+/web/api/rest/latest/activities for infos about the activity options
     :param publishing: the data of the Google+ activity to be published
+    :param service: a service relative to the user
     :return: a dictionary representing a Google+ publication
     """
     # The main dictionary
     body = dict()
     # Dictionary containing the data in the publication (url, content, image, etc.)
     object = dict()
-    # Dictionary containing the access restrictions to the publication
-    access = dict()
     # Dictionary containing the comments and sharing restrictions
     statusForViewers = dict()
 
@@ -113,7 +112,7 @@ def create_activity_body(publishing):
         attachement['objectType'] = 'photo'
         attachements.append(attachement)
 
-    if attachement is not []:
+    if attachements is not []:
         object['attachements'] = attachements
 
     # fetch disabling
@@ -122,8 +121,8 @@ def create_activity_body(publishing):
     statusForViewers['canComment'] = extra['disablecomments']
     object['statusForViewers'] = statusForViewers
 
-    # Set access control #Todo manage more specific options (circle, etc.)
-    access['items'] = [{'type': 'domain'}]
+    # Set access control
+    access = access_from_list(object['circles'], service)
 
     # Add the sub-dictionaries to the body
     body['object'] = object
