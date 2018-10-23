@@ -199,7 +199,7 @@ def list_circle(channel_config):
     :param channel_config: the credential of the user
     :return: a list of tuples with the circles names and id in the form (id,name)
     """
-    result = ['domain', 'My Domain (Publish in Public)']
+    result = ['domain', 'All my circles']
     service = create_client_service(channel_config)
 
     circle_service = service.circles()
