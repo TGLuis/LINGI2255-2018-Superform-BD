@@ -37,8 +37,8 @@ def create_a_publishing(post, chn, form):
 
     extra = dict()
     if chn.module == "superform.plugins.Gplus":
-        extra['disablesharing'] = form.get(chan + "_disablesharing") if not None else False
-        extra['disablecomments'] = form.get(chan + "_disablecomments") if not None else False
+        extra['disablesharing'] = True if form.get(chan + "_disablesharing") is not None else False
+        extra['disablecomments'] = True if form.get(chan + "_disablecomments") is not None else False
         extra['circles'] = form.get(chan + "_circles") if not None else []
 
     pub = Publishing(post_id=post.id, channel_id=chan, state=0, title=title_post, description=descr_post,
