@@ -24,7 +24,9 @@ class Publishing:
 
 class TestGPlus(unittest.TestCase):
     def test_login(self):
-        pass
+        channel_config = {"token": "ya29.Glw_BhYJwlHLDp3PlDxYJ9OzEL5k00bGMpsiVwwvC954J4l13Doo02P7PWD91m0NetnM1jF9zfaCZGQH5xLdUnfJbSloWzPGudBit-Up4otiqMTHPYY_0XuWglvYMw", "refresh_token": None, "token_uri": "https://www.googleapis.com/oauth2/v3/token", "client_id": "59367346006-eoo13gm4gm2aud1j4k0u6ebl1lvd311o.apps.googleusercontent.com", "client_secret": "N5aZQdD3frVPHxdAw643QoS-", "scopes": ["https://www.googleapis.com/auth/plus.me", "https://www.googleapis.com/auth/plus.stream.write"]}
+        cl_doc = Gplus.create_client_object(channel_config)
+        print(cl_doc["id"])
 
     def test_publishing(self):
         my_publy = Publishing(0, "Why Google+ is still relevant, even though it will soon cease to exist",
